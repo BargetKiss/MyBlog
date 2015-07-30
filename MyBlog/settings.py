@@ -237,3 +237,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/')
 COMMENTS_ENABLE = True
 
 #测试
+
+
+#测试2

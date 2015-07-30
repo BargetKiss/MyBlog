@@ -1,0 +1,36 @@
+{% extends "./blog/base.html"%}
+
+{% block main%}
+<div class="row">
+    <div id="vmaig-content" class="col-md-8 col-lg-9">
+        {% if article_list %}
+        <div id="all-post-list" class="well">
+            
+            {% with post_list=article_list %}
+            {% for post in post_list %} 
+                {% include "./blog/include/tag_post.html"%}
+            {% endfor %}
+            {% endwith %}            
+        </div>
+        {% endif %} 
+               
+        {% if not article_list %}
+            <div id="no_more_post" class="alert alert-danger alert-dismissible fade in">
+                <button class="close" data-dismiss="alert" type="button">&times;</button>
+                <lable style="margin-left:50%">没有找到相关数据</lable>
+            </div>
+            {% endif %}
+        
+        <!--分页 -->
+        {% if page_obj%}
+        {% include "./blog/include/pagination.html"%}
+        {% endif %}
+    </div>
+    <div id="vmaig-side" class="col-md-4 col-lg-3 hidden-xs">
+        {% include "./blog/widgets/tags_cloud.html"%}
+        {% include "./blog/widgets/search.html"%}
+        {% include "./blog/widgets/hotest_posts.html"%}
+        {% include "./litdev_comments/latest_comments.html" %}
+    </div>
+</div>
+{% endblock %}

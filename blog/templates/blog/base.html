@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <!-- 手机hml -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>litdev</title>
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" > 
+    <link rel="stylesheet" href="/static/css/litdev.css" >
+    <link rel="stylesheet" href="/static/css/litdev_comments.css">
+    <link rel="stylesheet" href="/static/css/litdev_auth.css">
+    <link rel="stylesheet" href="/static/jquery/jquery.Jcrop.min.css">
+    
+    <script src="/static/jquery/jquery-2.1.3.min.js"></script>
+    <script src="/static/jquery/jquery.cookie.js"></script>
+    <script src="/static/jquery/jquery.form.js"></script>
+    <script src="/static/jquery/jquery.Jcrop.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    
+    {% block css %}{% endblock %}
+</head>
+<body>
+    <!--导航栏-->
+    {% include "./blog/include/nav.html" %}
+    
+    <!-- 文章列表 与 侧边的东西 -->
+    <div id="vmaig-main">
+        <div id="vmaig-content" class="container">
+            {%block main%} {% endblock %}
+        </div>
+        <footer>
+           <div class="container">
+               <p class="text-center">基于Dajngo1.8.2,Bootsratp3,借鉴<a href="http://vmaig.com/" target="_bank">Vmaig</a>源码 2015/7/24</p>
+               <p class="text-center">大道至简 悟者天成 智者不惑 勇者无惧 诚者有信 仁者无敌 霸者无双 适者生存</p>
+           </div>
+        </footer>
+    </div>
+</body>
+<script type="text/javascript" src="/static/js/litdev.js"></script>
+{% block js%}{% endblock%}
+</html>

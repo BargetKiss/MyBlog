@@ -1,0 +1,39 @@
+<div id="vmaig-latest-comments">
+    <div class="panel panel-vmaig-comments">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <span class="glyphicon glyphicon-comment"></span>
+                最新评论
+                <span class="glyphicon glyphicon-remove btn panel-close pull-right" data-dismiss="alert"></span>
+                <span class="glyphicon glyphicon-chevron-up btn panel-collapse pull-right"  data-toggle="collapse" data-target="#latest-comment-list"></span>
+            </h3>
+        </div>
+        <ul id="latest-comment-list" class="list-group collapse in">
+            {% if latest_comment_list%}
+                {% for comment in latest_comment_list %}
+                <li class="list-group-item clearfix">
+                    <div class="comment-info">
+                        <div class="comment-username">
+                            <a href="javascript:void(0)">{{comment.nick_name}}({{comment.get_ip}}) 说:</a>
+                        </div>
+                        <div class="comment-content">
+                            <a href="/article/{{comment.article.id}}.html">
+                                {% autoescape on%}
+                                {{comment.comment|slice:"60" }}
+                                {% endautoescape %}
+                                
+                                {% if comment.comment|length > 50%}
+                                    ...
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            {% endif %}
+            {% if not latest_comment_list %}
+                <li class="list-group-item clearfix">None</li>
+            {% endif %}
+        </ul>
+    </div>     
+</div>

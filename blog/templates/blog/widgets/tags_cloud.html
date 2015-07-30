@@ -1,0 +1,6 @@
+<script src="/static/js/3d.js"></script>
+<div id="div_cloud_tags">
+    {% for ta in tags_list %}
+        <a href="/tag/{{ta.id}}">{{ta.title}}</a>
+    {% endfor %} 
+</div>

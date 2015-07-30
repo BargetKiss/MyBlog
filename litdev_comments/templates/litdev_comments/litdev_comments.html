@@ -1,0 +1,108 @@
+<div class="well">
+    <div class="vmaig-comment">
+        <div class="vmaig-comment-edit clearfix">
+            <form id="vmaig-comment-form" method="post" role="form">
+                {% csrf_token %}
+                <textarea id="comment" name="comment" class="form-control" rows="4" placeholder="请输入评论 限200字!"></textarea>
+                <input type="text" id="nick_name" name="nick_name" class="form-control" maxlength="10" placeholder="您的称呼">
+                <input type="text" id="email" name="email" class="form-control" style="margin-top:10px;" maxlength="30"  placeholder="您的邮箱"> 
+                <button type="submit" class="btn btn-vmaig-comments pull-right" id="btn_submit" style="margin-top:10px;">提交</button>
+            </form>
+        </div>
+        <ul>
+            {% for comment in comment_list%}
+            <li>
+            <div class="vmaig-comment-content">
+                <a><h1>{{comment.nick_name}}</h1></a>
+                <p>
+                    说：
+                    {% autoescape on%}
+                    {{comment.comment}}
+                    {% endautoescape %}
+                </p>
+                <p>{{comment.get_ip}} in {{comment.create_time|date:"Y-m-d H:i:s" }}</p>
+            </div>
+            </li>
+            {% endfor%}
+        </ul>
+    </div>
+</div>
+<script language="javascript" type="text/javascript">
+    $('#vmaig-comment-form').submit(function(){
+        var comment = $("#comment").val();
+        var email = $("#email").val();
+        var nick_name = $("#nick_name").val();
+        console.log(comment);
+        console.log(email);
+        console.log(nick_name);
+        if(comment.length==0)
+        {
+            alert("请输入评论内容");
+            return false;
+        }
+        
+        if(nick_name.length==0)
+        {
+            alert("请输入您的称呼");
+            return false;
+        }
+        if(email.length==0)
+        {
+            alert("请输入您的邮箱");
+            return false;
+        }
+        
+        if(comment.length>200)
+        {
+            alert("评论内容不能超过200个字符")
+            return false;
+        }
+        if(email.length>30)
+        {
+            alert("邮箱不能超过30个字符")
+            return false;
+        }
+        
+        if(nick_name.length>20)
+        {
+            alert("称呼不能超过20个字符")
+            return false;
+        }
+        
+        var emailreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+        if(!emailreg.test(email))
+        {
+             alert("请输入有效的邮箱")
+             return false;
+        }
+        
+        
+        $.ajax({
+            type:"POST",
+            url:"/comment/{{article.id}}",
+            data:{"comment":comment,"email":email,"nick_name":nick_name},
+            beforeSend:function(xhr){
+                $("#btn_submit").text('进行中..');
+                $("#btn_submit").attr("disabled",false);                
+                xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));  
+                
+            },
+            success:function(data,textStatus){
+                $("#btn_submit").text('评论成功');
+                $("#btn_submit").removeAttr("disabled");
+                $("#comment").val("");
+                $("#email").val("");
+                $("#nick_name").val("");
+                $(".vmaig-comment ul").prepend(data);
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                $("#btn_submit").text('提交');
+                $("#btn_submit").removeAttr("disabled");
+                alert(XMLHttpRequest.responseText);                
+                
+            }
+
+        });
+        return false;
+    }); 
+</script>
